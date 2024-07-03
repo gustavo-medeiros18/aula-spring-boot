@@ -5,7 +5,16 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Entity annotation indicates that this class is a JPA entity.
+ * Table annotation specifies the name for the table in the database.
+ * Id annotation specifies the primary key of an entity.
+ * GeneratedValue(strategy = GenerationType.IDENTITY) automatically
+ * generates the id.
+ */
+
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
