@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -30,7 +31,11 @@ public class User implements Serializable {
    * OneToMany annotation establishes a one-to-many relationship between
    * User and Order entities. mappedBy attribute indicates the foreign class
    * attribute that owns the relationship.
+   * <p>
+   * JsonIgnore annotation prevents infinite loop when serializing objects.
+   * In other words, it makes a lazy loading.
    */
+  @JsonIgnore
   @OneToMany(mappedBy = "client")
   private List<Order> orders = new ArrayList<>();
 
