@@ -15,6 +15,15 @@ public class Order implements Serializable {
   private Instant moment;
   // TODO: orderStatus field
 
+  /**
+   * ManyToOne annotation establishes a many-to-one relationship between
+   * Order and User entities. JoinColumn annotation specifies the foreign key
+   * column that will be used to establish the relationship.
+   */
+  @ManyToOne
+  @JoinColumn(name = "client_id")
+  private User client;
+
   public Order() {
 
   }
@@ -30,6 +39,10 @@ public class Order implements Serializable {
 
   public Instant getMoment() {
     return moment;
+  }
+
+  public User getClient() {
+    return client;
   }
 
   public void setMoment(Instant moment) {
