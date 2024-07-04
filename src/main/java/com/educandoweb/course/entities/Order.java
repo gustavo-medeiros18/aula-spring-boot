@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.educandoweb.course.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -13,7 +14,12 @@ public class Order implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Instant moment;
-  // TODO: orderStatus field
+  /**
+   * OrderStatus is an enum type in the Order class. But, in the database, the
+   * OrderStatus is an integer. To store the OrderStatus in the database, we need
+   * to convert the OrderStatus to its corresponding integer code.
+   */
+  private Integer orderStatus;
 
   /**
    * ManyToOne annotation establishes a many-to-one relationship between
@@ -28,9 +34,10 @@ public class Order implements Serializable {
 
   }
 
-  public Order(Long id, Instant moment, User client) {
+  public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
     this.id = id;
     this.moment = moment;
+    this.orderStatus = orderStatus.getCode();
     this.client = client;
   }
 
@@ -42,12 +49,21 @@ public class Order implements Serializable {
     return moment;
   }
 
+  public OrderStatus getOrderStatus() {
+    return OrderStatus.valueOf(orderStatus);
+  }
+
   public User getClient() {
     return client;
   }
 
   public void setMoment(Instant moment) {
     this.moment = moment;
+  }
+
+  public void setOrderStatus(OrderStatus orderStatus) {
+    if (orderStatus != null)
+      this.orderStatus = orderStatus.getCode();
   }
 
   public void setId(Long id) {
