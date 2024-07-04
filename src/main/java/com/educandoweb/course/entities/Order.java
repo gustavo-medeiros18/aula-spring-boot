@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -20,7 +22,6 @@ public class Order implements Serializable {
    * to convert the OrderStatus to its corresponding integer code.
    */
   private Integer orderStatus;
-
   /**
    * ManyToOne annotation establishes a many-to-one relationship between
    * Order and User entities. JoinColumn annotation specifies the foreign key
@@ -29,6 +30,9 @@ public class Order implements Serializable {
   @ManyToOne
   @JoinColumn(name = "client_id")
   private User client;
+
+  @OneToMany(mappedBy = "id.order")
+  private Set<OrderItem> items = new HashSet<>();
 
   public Order() {
 
@@ -55,6 +59,10 @@ public class Order implements Serializable {
 
   public User getClient() {
     return client;
+  }
+
+  public Set<OrderItem> getItems() {
+    return items;
   }
 
   public void setMoment(Instant moment) {
