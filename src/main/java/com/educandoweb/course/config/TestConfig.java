@@ -1,8 +1,10 @@
 package com.educandoweb.course.config;
 
+import com.educandoweb.course.entities.Category;
 import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.entities.enums.OrderStatus;
+import com.educandoweb.course.repositories.CategoryRepository;
 import com.educandoweb.course.repositories.OrderRepository;
 import com.educandoweb.course.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,15 @@ public class TestConfig implements CommandLineRunner {
   @Autowired
   private OrderRepository orderRepository;
 
+  @Autowired
+  private CategoryRepository categoryRepository;
+
   @Override
   public void run(String... args) throws Exception {
+    Category cat1 = new Category(null, "Electronics");
+    Category cat2 = new Category(null, "Books");
+    Category cat3 = new Category(null, "Computers");
+
     User u1 = new User(
         null,
         "Maria Brown",
@@ -57,8 +66,6 @@ public class TestConfig implements CommandLineRunner {
         "977777777",
         "123456"
     );
-
-    userRepository.saveAll(Arrays.asList(u1, u2));
 
     Order o1 = new Order(
         null,
@@ -78,6 +85,8 @@ public class TestConfig implements CommandLineRunner {
         u1
     );
 
+    categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
+    userRepository.saveAll(Arrays.asList(u1, u2));
     orderRepository.saveAll(Arrays.asList(o1, o2, o3));
   }
 }
