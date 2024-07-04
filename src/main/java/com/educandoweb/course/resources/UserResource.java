@@ -24,11 +24,6 @@ public class UserResource {
     return ResponseEntity.ok().body(users);
   }
 
-  /**
-   * GetMapping annotation can receive a value parameter to
-   * specify the endpoint. To use the this parameter in the
-   * endpoint, we use the PathVariable annotation.
-   */
   @GetMapping(value = "/{id}")
   public ResponseEntity<User> findById(@PathVariable Long id) {
     User user = service.findById(id);
