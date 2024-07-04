@@ -18,7 +18,24 @@ public class Product implements Serializable {
   private Double price;
   private String imgUrl;
 
-  @Transient
+  /**
+   * ManyToMany annotation is used to create a many-to-many
+   * relationship between two entities.
+   * <p>
+   * JoinTable annotation is used to define the pivot table.
+   * It needs to define the name of the pivot table and the
+   * foreign keys that will be used to join the two tables.
+   * <p>
+   * In the other entity, the ManyToMany annotation needs to
+   * define the mappedBy attribute to indicate the attribute
+   * from this entity that is the owner of the relationship.
+   */
+  @ManyToMany
+  @JoinTable(
+      name = "tb_product_category",
+      joinColumns = @JoinColumn(name = "product_id"),
+      inverseJoinColumns = @JoinColumn(name = "category_id")
+  )
   private Set<Category> categories = new HashSet<>();
 
   public Product() {
