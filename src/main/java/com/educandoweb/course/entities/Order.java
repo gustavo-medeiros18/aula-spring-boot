@@ -34,6 +34,19 @@ public class Order implements Serializable {
   @OneToMany(mappedBy = "id.order")
   private Set<OrderItem> items = new HashSet<>();
 
+  /**
+   * OneToOne annotation establishes a one-to-one relationship between
+   * Order and Payment entities. mappedBy attribute tells JPA that the
+   * order attribute in the Payment entity is the owner of the relationship.
+   * <p>
+   * Remember that Payment entity is the weak entity in the relationship.
+   * The Payment entity depends on the Order entity to exist. So, the
+   * cascade attribute is set to CascadeType.ALL to ensure that the Payment
+   * entity is deleted when the Order entity is deleted.
+   */
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+  private Payment payment;
+
   public Order() {
 
   }
@@ -63,6 +76,14 @@ public class Order implements Serializable {
 
   public Set<OrderItem> getItems() {
     return items;
+  }
+
+  public Payment getPayment() {
+    return payment;
+  }
+
+  public void setPayment(Payment payment) {
+    this.payment = payment;
   }
 
   public void setMoment(Instant moment) {
