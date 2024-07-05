@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class Payment implements Serializable {
    * Remember that Payment entity is the weak entity in the relationship.
    * The Payment entity depends on the Order entity to exist.
    */
+  @JsonIgnore
   @OneToOne()
   @MapsId
   private Order order;
