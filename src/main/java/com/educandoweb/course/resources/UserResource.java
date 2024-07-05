@@ -4,11 +4,10 @@ import com.educandoweb.course.entities.User;
 import com.educandoweb.course.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -29,5 +28,30 @@ public class UserResource {
     User user = service.findById(id);
 
     return ResponseEntity.ok().body(user);
+  }
+
+  /**
+   * PostMapping is used to define a POST endpoint.
+   * RequestBody is used to parse the JSON request body
+   * into the User object.
+   */
+  @PostMapping
+  public ResponseEntity<User> insert(@RequestBody User user) {
+    user = service.insert(user);
+
+    /**
+     * The uri variable is used to store the location of the new resource.
+     * ServletUriComponentsBuilder.fromCurrentRequest() method retrieves
+     * the current request URI. The path() method appends the id of the new
+     * resource to the URI. The buildAndExpand() method substitutes the id
+     * variable in the path() method with the id of the new resource. The
+     * toUri() method converts the builder to a URI.
+     */
+    URI uri = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(user.getId()).toUri();
+
+    return ResponseEntity.created(uri).body(user);
   }
 }
