@@ -15,7 +15,7 @@ public class OrderItem implements Serializable {
    * EmbeddedId annotation is used to specify a composite primary key.
    */
   @EmbeddedId
-  private OrderItemPK id;
+  private OrderItemPK id = new OrderItemPK();
 
   private Integer quantity;
   private Double price;
