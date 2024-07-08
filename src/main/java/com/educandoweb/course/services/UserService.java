@@ -30,6 +30,7 @@ public class UserService {
     return repository.save(user);
   }
 
+  // FIXME: repository.deleteById(id) is never throwing exceptions
   public void delete(Long id) {
     try {
       repository.deleteById(id);
