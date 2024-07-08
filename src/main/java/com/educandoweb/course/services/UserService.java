@@ -6,6 +6,7 @@ import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class UserService {
   @Autowired
   private UserRepository repository;
+  @Autowired
+  private DataSourceTransactionManagerAutoConfiguration dataSourceTransactionManagerAutoConfiguration;
 
   public List<User> findAll() {
     return repository.findAll();
@@ -31,12 +34,12 @@ public class UserService {
     return repository.save(user);
   }
 
-  // FIXME: repository.deleteById(id) is never throwing exceptions
   public void delete(Long id) {
     try {
+      if (!repository.existsById(id))
+        throw new ResourceNotFoundException(id);
+
       repository.deleteById(id);
-    } catch (EmptyResultDataAccessException e) {
-      throw new ResourceNotFoundException(id);
     } catch (DataIntegrityViolationException e) {
       throw new DatabaseException(e.getMessage());
     }
